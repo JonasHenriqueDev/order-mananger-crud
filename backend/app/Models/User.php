@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'active',
     ];
 
     /**
@@ -70,4 +71,8 @@ class User extends Authenticatable
         return in_array($this->role->value, $roles, true);
     }
 
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
 }
