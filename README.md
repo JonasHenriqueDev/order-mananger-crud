@@ -2,6 +2,8 @@
 
 Sistema backend desenvolvido com Laravel para gerenciamento completo de pedidos, produtos e usuários, com processamento assíncrono via filas e autenticação baseada em tokens.
 
+OBS: O frontend ainda será desenvolvido neste mesmo repositório.
+
 ## Arquitetura do Sistema
 
 ```
