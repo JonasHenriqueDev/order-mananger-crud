@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Events\OrderCreated;
+use App\Events\OrderStatusChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,6 +51,10 @@ class Order extends Model
                 $order->order_number = self::generateOrderNumber();
             }
         });
+
+        static::created(function ($order) {
+            OrderCreated::dispatch($order);
+        });
     }
 
     public function user(): BelongsTo
@@ -70,26 +76,32 @@ class Order extends Model
 
     public function markAsProcessing(): void
     {
+        $previousStatus = $this->status->value;
         $this->update([
             'status' => OrderStatus::PROCESSING,
             'processed_at' => now(),
         ]);
+        OrderStatusChanged::dispatch($this, $previousStatus, OrderStatus::PROCESSING->value);
     }
 
     public function markAsCompleted(): void
     {
+        $previousStatus = $this->status->value;
         $this->update([
             'status' => OrderStatus::COMPLETED,
             'completed_at' => now(),
         ]);
+        OrderStatusChanged::dispatch($this, $previousStatus, OrderStatus::COMPLETED->value);
     }
 
     public function markAsCancelled(): void
     {
+        $previousStatus = $this->status->value;
         $this->update([
             'status' => OrderStatus::CANCELLED,
             'cancelled_at' => now(),
         ]);
+        OrderStatusChanged::dispatch($this, $previousStatus, OrderStatus::CANCELLED->value);
     }
 
     public function canBeCancelled(): bool

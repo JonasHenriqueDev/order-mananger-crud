@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    command: php artisan queue:work
+    command: php artisan horizon
     volumes:
       - .:/var/www
     env_file:

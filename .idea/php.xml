@@ -149,6 +149,7 @@
       <path value="$PROJECT_DIR$/backend/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/pail" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/prompts" />
+      <path value="$PROJECT_DIR$/backend/vendor/laravel/horizon" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
