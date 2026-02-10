@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -13,6 +14,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
 
     Route::get('/me', [AuthController::class, 'me']);
+
+    // My Orders (accessible to all authenticated users)
+    Route::get('/my-orders', [OrderController::class, 'myOrders']);
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin/dashboard', fn () => [
@@ -56,6 +60,14 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
         Route::post('/products/{id}/restore', [ProductController::class, 'restore']);
         Route::delete('/products/{id}/force', [ProductController::class, 'forceDelete']);
+
+        // Order routes
+        Route::get('/orders', [OrderController::class, 'index']);
+        Route::post('/orders', [OrderController::class, 'store']);
+        Route::get('/orders/{order}', [OrderController::class, 'show']);
+        Route::put('/orders/{order}', [OrderController::class, 'update']);
+        Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
+        Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
     });
 });
 

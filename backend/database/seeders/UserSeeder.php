@@ -8,12 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Admin User
         $admin = User::create([
             'first_name' => 'Jonas',
             'last_name' => 'Henrique',
@@ -42,7 +38,6 @@ class UserSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Manager User
         $manager = User::create([
             'first_name' => 'Maria',
             'last_name' => 'Silva',
@@ -83,7 +78,6 @@ class UserSeeder extends Seeder
             'is_primary' => false,
         ]);
 
-        // Regular User
         $user = User::create([
             'first_name' => 'João',
             'last_name' => 'Santos',
@@ -112,7 +106,6 @@ class UserSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Inactive User
         $inactive = User::create([
             'first_name' => 'Pedro',
             'last_name' => 'Oliveira',

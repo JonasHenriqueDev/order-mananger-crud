@@ -6,18 +6,10 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
 class ProductFactory extends Factory
 {
     protected $model = Product::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $name = fake()->unique()->words(3, true);
@@ -36,9 +28,6 @@ class ProductFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the product is inactive.
-     */
     public function inactive(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -46,9 +35,6 @@ class ProductFactory extends Factory
         ]);
     }
 
-    /**
-     * Indicate that the product is featured.
-     */
     public function featured(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -56,9 +42,6 @@ class ProductFactory extends Factory
         ]);
     }
 
-    /**
-     * Indicate that the product is out of stock.
-     */
     public function outOfStock(): static
     {
         return $this->state(fn (array $attributes) => [

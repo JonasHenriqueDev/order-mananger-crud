@@ -7,18 +7,10 @@ use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Phone>
- */
 class PhoneFactory extends Factory
 {
     protected $model = Phone::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
@@ -30,9 +22,6 @@ class PhoneFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the phone is primary.
-     */
     public function primary(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -40,9 +29,6 @@ class PhoneFactory extends Factory
         ]);
     }
 
-    /**
-     * Indicate that the phone is mobile.
-     */
     public function mobile(): static
     {
         return $this->state(fn (array $attributes) => [
