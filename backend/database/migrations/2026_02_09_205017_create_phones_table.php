@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('number');
             $table->enum('type', ['mobile', 'home', 'work'])->default('mobile');
             $table->boolean('is_primary')->default(false);
+            $table->softDeletes();
             $table->timestamps();
-            $table->unique('user_id');
         });
     }
 

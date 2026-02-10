@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('postal_code', 20);
             $table->string('country')->default('BR');
             $table->boolean('is_primary')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
