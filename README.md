@@ -102,28 +102,112 @@ Cliente cria pedido
 
 ## Funcionalidades
 
-### Autenticação e Autorização
-- API REST stateless com Laravel Sanctum
-- Sistema de roles: admin, manager e cliente
-- Middleware de proteção de rotas por permissão
-- Controle de usuários ativos/inativos
+### Backend
 
-### Gestão de Recursos
-- **Usuários**: CRUD completo com roles, telefones e endereços
-- **Produtos**: controle de estoque, soft delete, preços
-- **Pedidos**: criação com múltiplos itens, validação de estoque, cálculo automático de totais
+#### Autenticação e Autorização
+- [x] API REST stateless com Laravel Sanctum
+- [x] Sistema de roles (admin, manager, cliente)
+- [x] Middleware de proteção de rotas por permissão
+- [x] Controle de usuários ativos/inativos
+- [x] Registro de novos usuários
+- [x] Login com geração de token
 
-### Processamento Assíncrono
-- Eventos e listeners para desacoplamento
-- Jobs para processamento em background (ProcessOrderJob, AdjustStockJob, CompleteOrderJob)
-- Fila Redis com Laravel Horizon
-- Retentativas automáticas em caso de falha
+#### Gestão de Usuários
+- [x] CRUD completo de usuários
+- [x] Atribuição de roles
+- [x] Vinculação de telefones múltiplos
+- [x] Vinculação de endereços múltiplos
+- [x] Ativação e desativação de contas
+- [x] Listagem com filtros
 
-### Estados de Pedido
-- `pending`: aguardando processamento
-- `processing`: ajustando estoque
-- `completed`: finalizado com sucesso
-- `cancelled`: cancelado pelo usuário ou sistema
+#### Gestão de Produtos
+- [x] CRUD completo de produtos
+- [x] Controle de estoque
+- [x] Soft delete (exclusão lógica)
+- [x] Restauração de produtos excluídos
+- [x] Exclusão permanente
+- [x] Validação de preço e quantidade
+
+#### Gestão de Pedidos
+- [x] Criação de pedidos com múltiplos itens
+- [x] Validação de estoque disponível
+- [x] Cálculo automático de valores
+- [x] Controle de status (pending, processing, completed, cancelled)
+- [x] Cancelamento de pedidos
+- [x] Listagem de pedidos do usuário
+- [x] Listagem completa para admin/manager
+
+#### Processamento Assíncrono
+- [x] Eventos e listeners para desacoplamento
+- [x] Jobs para processamento em background
+- [x] ProcessOrderJob (processamento inicial)
+- [x] AdjustStockJob (ajuste de estoque)
+- [x] CompleteOrderJob (finalização)
+- [x] Fila Redis com Laravel Horizon
+- [x] Retentativas automáticas em caso de falha
+- [x] Interface web de monitoramento (Horizon)
+
+#### Infraestrutura
+- [x] Docker e Docker Compose configurados
+- [x] PostgreSQL 16 como banco de dados
+- [x] Redis para cache e filas
+- [x] Nginx como servidor web
+- [x] Testes automatizados com Pest
+- [x] Migrations e seeders
+- [x] Factories para testes
+
+### Frontend
+
+#### Autenticação
+- [ ] Tela de login
+- [ ] Tela de registro
+- [ ] Recuperação de senha
+- [ ] Proteção de rotas privadas
+- [ ] Armazenamento seguro de token
+- [ ] Logout
+
+#### Dashboard
+- [ ] Visão geral do sistema
+- [ ] Indicadores (total de pedidos, faturamento)
+- [ ] Gráficos de vendas
+- [ ] Produtos com estoque baixo
+- [ ] Últimos pedidos
+
+#### Gestão de Usuários
+- [ ] Listagem de usuários
+- [ ] Formulário de cadastro
+- [ ] Formulário de edição
+- [ ] Ativação/desativação de contas
+- [ ] Gerenciamento de telefones
+- [ ] Gerenciamento de endereços
+- [ ] Filtros e busca
+
+#### Gestão de Produtos
+- [ ] Listagem de produtos
+- [ ] Formulário de cadastro
+- [ ] Formulário de edição
+- [ ] Controle de estoque
+- [ ] Upload de imagens
+- [ ] Soft delete e restauração
+- [ ] Filtros e busca
+
+#### Gestão de Pedidos
+- [ ] Listagem de pedidos
+- [ ] Formulário de criação de pedido
+- [ ] Seleção de produtos com validação de estoque
+- [ ] Cálculo automático de totais
+- [ ] Visualização de detalhes do pedido
+- [ ] Cancelamento de pedidos
+- [ ] Filtros por status e data
+- [ ] Área "Meus Pedidos" para clientes
+
+#### Interface e Experiência
+- [ ] Design responsivo
+- [ ] Tema claro/escuro
+- [ ] Notificações toast
+- [ ] Tratamento de erros
+- [ ] Validação de formulários
+- [ ] Paginação
 
 ## Instalação e Execução
 
