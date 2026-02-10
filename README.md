@@ -89,6 +89,12 @@ Cliente cria pedido
 - PostgreSQL 16
 - Redis 7
 
+### Frontend
+- ReactJS
+- Vite
+- Tailwind CSS
+- Axios
+
 ### Infraestrutura
 - Docker & Docker Compose
 - Nginx Alpine
