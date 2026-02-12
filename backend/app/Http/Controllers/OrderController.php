@@ -22,7 +22,10 @@ class OrderController extends Controller
 
         // Filter by status
         if ($request->has('status')) {
-            $query->where('status', $request->status);
+            $status = OrderStatus::tryFrom($request->status);
+            if ($status) {
+                $query->where('status', $status);
+            }
         }
 
         // Filter by user
@@ -120,8 +123,10 @@ class OrderController extends Controller
                     }
                     $order->markAsCancelled();
                     // Restore stock
-                    foreach ($order->items as $item) {
-                        $item->product->adjustStock($item->quantity);
+                    foreach ($order->items()->with('product')->get() as $item) {
+                        if ($item->product) {
+                            $item->product->adjustStock($item->quantity);
+                        }
                     }
                     break;
             }
@@ -151,12 +156,16 @@ class OrderController extends Controller
             ], 422);
         }
 
-        // Restore stock
-        foreach ($order->items as $item) {
-            $item->product->adjustStock($item->quantity);
-        }
+        DB::transaction(function () use ($order) {
+            // Restore stock
+            foreach ($order->items()->with('product')->get() as $item) {
+                if ($item->product) {
+                    $item->product->adjustStock($item->quantity);
+                }
+            }
 
-        $order->delete();
+            $order->delete();
+        });
 
         return response()->noContent();
     }
@@ -176,8 +185,10 @@ class OrderController extends Controller
             $order->markAsCancelled();
 
             // Restore stock
-            foreach ($order->items as $item) {
-                $item->product->adjustStock($item->quantity);
+            foreach ($order->items()->with('product')->get() as $item) {
+                if ($item->product) {
+                    $item->product->adjustStock($item->quantity);
+                }
             }
         });
 
@@ -193,7 +204,10 @@ class OrderController extends Controller
             ->where('user_id', auth()->id());
 
         if ($request->has('status')) {
-            $query->where('status', $request->status);
+            $status = OrderStatus::tryFrom($request->status);
+            if ($status) {
+                $query->where('status', $status);
+            }
         }
 
         $query->orderBy('created_at', 'desc');

@@ -106,7 +106,7 @@ class Order extends Model
 
     public function canBeCancelled(): bool
     {
-        return in_array($this->status, [OrderStatus::PENDING, OrderStatus::PROCESSING]);
+        return in_array($this->status, [OrderStatus::PENDING, OrderStatus::PROCESSING], true);
     }
 
     public static function generateOrderNumber(): string

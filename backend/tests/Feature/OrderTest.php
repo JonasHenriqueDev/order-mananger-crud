@@ -5,6 +5,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Queue;
 
 beforeEach(function () {
     $this->admin = User::factory()->admin()->create();
@@ -41,6 +42,8 @@ describe('Index', function () {
     });
 
     it('can filter orders by status', function () {
+        Queue::fake();
+
         Order::factory()->pending()->count(2)->create();
         Order::factory()->completed()->count(3)->create();
 
@@ -239,6 +242,8 @@ describe('Update', function () {
     });
 
     it('restores stock when order is cancelled', function () {
+        Queue::fake();
+
         $product = Product::factory()->create(['stock' => 10]);
         $order = Order::factory()->pending()->create();
         OrderItem::factory()->create([
@@ -265,6 +270,8 @@ describe('Update', function () {
 
 describe('Delete', function () {
     it('admin can delete pending order', function () {
+        Queue::fake();
+
         $product = Product::factory()->create(['stock' => 10]);
         $order = Order::factory()->pending()->create();
         OrderItem::factory()->create([
@@ -310,6 +317,8 @@ describe('Delete', function () {
 
 describe('Cancel', function () {
     it('admin can cancel pending order', function () {
+        Queue::fake();
+
         $product = Product::factory()->create(['stock' => 10]);
         $order = Order::factory()->pending()->create();
         OrderItem::factory()->create([
@@ -349,6 +358,8 @@ describe('My Orders', function () {
     });
 
     it('user can filter their orders by status', function () {
+        Queue::fake();
+
         Order::factory()->pending()->count(2)->create(['user_id' => $this->user->id]);
         Order::factory()->completed()->count(3)->create(['user_id' => $this->user->id]);
 
