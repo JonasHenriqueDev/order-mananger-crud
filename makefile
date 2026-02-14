@@ -27,13 +27,12 @@ horizon:
 
 setup:
 	$(COMPOSE) up -d
-	cd backend && docker compose exec app rm -rf /var/www/vendor
+	cd backend && docker compose exec -u root app rm -rf /var/www/vendor
 	cd backend && docker compose exec app composer install
 	cd backend && docker compose exec app php artisan key:generate
 	cd backend && docker compose exec app php artisan migrate
 
 fix-permissions:
-	@echo "🔧 Corrigindo permissões..."
 	cd backend && docker compose exec -u root app chown -R www-data:www-data /var/www/vendor
 	cd backend && docker compose exec -u root app chown -R www-data:www-data /var/www/storage
 	cd backend && docker compose exec -u root app chown -R www-data:www-data /var/www/bootstrap/cache
@@ -46,7 +45,8 @@ composer-update:
 
 clean:
 	cd backend && docker compose down -v
-	rm -rf backend/vendor
+	cd backend && docker compose exec -u root app rm -rf /var/www/vendor || true
+	rm -rf backend/vendor || true
 
 help:
 	@echo "Comandos disponíveis:"
