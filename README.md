@@ -253,7 +253,7 @@ SESSION_DRIVER=database
 Depois de clonar o repositório execute:
 
 ``` bash
-make up
+make setup
 ```
 
 ### Acessar a Aplicação
@@ -269,6 +269,7 @@ Subir containers
 ``` bash
 make up
 ```
+
 Realizar setup do projeto (Migrations, Seed, Key)
 
 ``` bash
