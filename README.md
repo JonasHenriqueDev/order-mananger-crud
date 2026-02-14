@@ -269,6 +269,11 @@ Subir containers
 ``` bash
 make up
 ```
+Realizar setup do projeto (Migrations, Seed, Key)
+
+``` bash
+make setup
+```
 
 Parar containers
 
