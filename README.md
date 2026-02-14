@@ -248,68 +248,62 @@ SESSION_DRIVER=database
 
 ### Iniciar o Ambiente Docker
 
-Suba todos os containers:
-```bash
-docker compose up -d
-```
+Depois de clonar o repositório execute:
 
-Instale as dependências do Laravel:
-```bash
-docker compose exec app composer install
-```
-
-Gere a chave da aplicação:
-```bash
-docker compose exec app php artisan key:generate
-```
-
-Execute as migrations e seeders:
-```bash
-docker compose exec app php artisan migrate
-docker compose exec app php artisan db:seed
+``` bash
+make up
 ```
 
 ### Acessar a Aplicação
 
 O sistema estará disponível em: `http://localhost:8000`
 
+Horizon: `http://localhost:8000/horizon`
+
 ### Comandos Úteis
 
-Ver logs dos containers:
-```bash
-docker compose logs -f
+Subir containers
+
+``` bash
+make up
 ```
 
-Ver logs apenas do worker:
-```bash
-docker compose logs -f worker
+Parar containers
+
+``` bash
+make down
 ```
 
-Acessar o container da aplicação:
-```bash
-docker compose exec app bash
+Reiniciar tudo (rebuild)
+
+``` bash
+make restart
 ```
 
-Executar testes:
-```bash
-docker compose exec app php artisan test
+Rebuild manual
+
+``` bash
+make build
 ```
 
-Acessar o Horizon (gerenciamento de filas):
-```bash
-# Acesse no navegador: http://localhost:8000/horizon
+Ver logs
+
+``` bash
+make logs
 ```
 
-Parar os containers:
-```bash
-docker compose down
+Acessar container da aplicação
+
+``` bash
+make bash
 ```
 
-Limpar volumes e recomeçar:
-```bash
-docker compose down -v
-docker compose up -d
+Executar Horizon manualmente
+
+``` bash
+make horizon
 ```
+
 
 ## Estrutura da API
 
