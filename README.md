@@ -229,6 +229,7 @@ Configure as variáveis de ambiente:
 cp .env.example .env
 ```
 
+<!--
 Edite o arquivo `.env` com as seguintes configurações:
 ```env
 DB_CONNECTION=pgsql
@@ -245,6 +246,7 @@ REDIS_PORT=6379
 CACHE_DRIVER=redis
 SESSION_DRIVER=database
 ```
+-->
 
 ### Iniciar o Ambiente Docker
 
