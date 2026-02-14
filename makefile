@@ -47,8 +47,6 @@ tinker:
 	cd backend && docker compose exec app php artisan tinker
 
 setup:
-	$(COMPOSE) up --build -d
-	sleep 5
 	cd backend && docker compose exec app composer install
 	cd backend && docker compose exec app php artisan key:generate
 	cd backend && docker compose exec app php artisan migrate --force --seed
