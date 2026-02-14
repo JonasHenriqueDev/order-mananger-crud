@@ -21,7 +21,15 @@ services:
       args:
         UID: ${UID:-1000}
         GID: ${GID:-1000}
-    command: php artisan horizon
+    command: >
+      sh -c "
+        echo 'Aguardando vendor/autoload.php...'
+        while [ ! -f /var/www/vendor/autoload.php ]; do
+          sleep 2
+        done
+        echo 'Iniciando Horizon...'
+        php artisan horizon
+      "
     volumes:
       - .:/var/www
     env_file:
