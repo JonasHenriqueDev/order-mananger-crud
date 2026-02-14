@@ -248,7 +248,7 @@ SESSION_DRIVER=database
 
 ### Iniciar o Ambiente Docker
 
-Clone o repositório e execute:
+Depois de clonar o repositório execute:
 
 ``` bash
 make up
@@ -296,19 +296,6 @@ Acessar container da aplicação
 
 ``` bash
 make bash
-```
-
-Executar testes
-
-``` bash
-cd backend
-docker compose exec app php artisan test
-```
-
-ou dentro do container:
-
-``` bash
-php artisan test
 ```
 
 Executar Horizon manualmente
