@@ -1,30 +1,60 @@
-import {createContext, useState} from "react";
-import * as React from "react";
+import type {User} from "../../services/types.ts";
+import {createContext, useCallback, useContext, useEffect, useState} from "react";
+import {authService} from "../../services/authService.ts";
+
 
 interface IAuthContextProps {
-    email: string | undefined,
-    accessToken: string | undefined,
+    user?: User;
+    token?: string;
 
-    logout () : void;
-    login (email: string, password: string) : void;
+    login(email: string, password: string): Promise<void>;
+    logout(): void;
 }
 
 const AuthContext = createContext({} as IAuthContextProps);
 
-export const AuthProvider = ({children} : React.PropsWithChildren) => {
+export const AuthProvider = ({ children }: React.PropsWithChildren) => {
+    const [token, setToken] = useState<string>();
+    const [user, setUser] = useState<User>();
 
-    const [email, setEmail] = useState<string>();
-    const [accessToken, setAccessToken] = useState<string>();
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("user");
 
+        if (storedToken && storedUser) {
+            setToken(storedToken);
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
 
-    const logout = () => {
+    const login = useCallback(async (email: string, password: string) => {
+        const data = await authService.login(email, password);
 
-    }
-    const login = (email: string, password: string) => {}
+        setToken(data.token);
+        setUser(data.user);
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+    }, []);
+
+    const logout = useCallback(() => {
+        setToken(undefined);
+        setUser(undefined);
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    }, []);
 
     return (
-        <AuthContext.Provider value={{login, logout, accessToken, email}}>
+        <AuthContext.Provider value={{ login, logout, token, user }}>
             {children}
         </AuthContext.Provider>
     );
-}
+};
+
+export const useAuthContext = () => useContext(AuthContext);
+
+export const useIsAuthenticated = () => {
+    const { token } = useAuthContext();
+    return !!token;
+};

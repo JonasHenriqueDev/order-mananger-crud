@@ -1,14 +1,15 @@
 import type {ChangeEvent} from "react";
 
 interface InputProps {
-    label: string;
-    type?: string;
-    value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
+    label: string,
+    type?: string,
+    value: string,
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    placeholder?: string,
+    required?: boolean
 }
 
-export default function Input({label, type = "text", value, onChange, placeholder,}: InputProps) {
+export default function Input({label, type = "text", value, onChange, placeholder}: InputProps) {
     return (<div className="mb-4">
         <label className="block text-sm mb-2">{label}</label>
         <input
