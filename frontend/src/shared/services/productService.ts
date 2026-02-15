@@ -11,9 +11,9 @@ export interface CreateProductPayload {
 }
 
 export const productService = {
-    async getProducts(page = 1): Promise<PaginatedResponse<Product>> {
+    async getProducts(page = 1, perPage = 10): Promise<PaginatedResponse<Product>> {
         const response = await api.get<PaginatedResponse<Product>>(
-            `/products?page=${page}`
+            `/products?page=${page}&per_page=${perPage}`
         );
         return response.data;
     },

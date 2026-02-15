@@ -1,6 +1,19 @@
 import { api } from "./api";
 import type { PaginatedResponse, Order } from "./types";
 
+export interface CreateOrderItem {
+    product_id: number;
+    quantity: number;
+}
+
+export interface CreateOrderPayload {
+    user_id?: number;
+    items: CreateOrderItem[];
+    tax?: number;
+    discount?: number;
+    notes?: string;
+}
+
 export const orderService = {
     async getOrders(page = 1): Promise<PaginatedResponse<Order>> {
         const response = await api.get<PaginatedResponse<Order>>(
@@ -18,6 +31,16 @@ export const orderService = {
         const response = await api.get<PaginatedResponse<Order>>(
             `/my-orders?page=${page}`
         );
+        return response.data;
+    },
+
+    async createOrder(data: CreateOrderPayload): Promise<Order> {
+        const response = await api.post<Order>("/orders", data);
+        return response.data;
+    },
+
+    async cancelOrder(id: number): Promise<Order> {
+        const response = await api.post<Order>(`/orders/${id}/cancel`);
         return response.data;
     },
 };

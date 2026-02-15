@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import {useIsAuthenticated} from "./shared/contexts/AuthContext";
 import AppLayout from "./shared/layout/AppLayout";
 import CreateProduct from "./pages/CreateProduct.tsx";
+import CreateOrder from "./shared/components/CreateOrder.tsx";
 
 export const AppRoutes = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -36,6 +37,7 @@ export const AppRoutes = () => {
                 >
                     <Route path="/" element={<Home/>}/>
                     <Route path="/products/create" element={<CreateProduct />} />
+                    <Route path="/orders/create" element={<CreateOrder />} />
                 </Route>
 
                 {/* Fallback */}

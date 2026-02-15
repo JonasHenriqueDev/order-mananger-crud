@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { Order, Product } from "../shared/services/types.ts";
-import { useAuth } from "../shared/hooks/useAuth.ts";
-import { productService } from "../shared/services/productService.ts";
-import { orderService } from "../shared/services/orderService.ts";
+import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import type {Order, Product} from "../shared/services/types.ts";
+import {useAuth} from "../shared/hooks/useAuth.ts";
+import {productService} from "../shared/services/productService.ts";
+import {orderService} from "../shared/services/orderService.ts";
 import Loading from "../shared/components/Loading.tsx";
 import ErrorMessage from "../shared/components/ErrorMessage.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../shared/components/Table.tsx";
@@ -14,7 +14,7 @@ import Pagination from "../shared/components/Pagination.tsx";
 
 export default function Home() {
     const navigate = useNavigate();
-    const { user, loading: authLoading, isAdminOrManager } = useAuth();
+    const {user, loading: authLoading, isAdminOrManager} = useAuth();
 
     const [products, setProducts] = useState<Product[]>([]);
     const [productsCurrentPage, setProductsCurrentPage] = useState(1);
@@ -90,24 +90,21 @@ export default function Home() {
     };
 
     if (authLoading) {
-        return <Loading message="Loading..." />;
+        return <Loading message="Loading..."/>;
     }
 
     if (!user || !isAdminOrManager()) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-[#212121]">
+        return (<div className="flex items-center justify-center min-h-screen bg-[#212121]">
                 <div className="text-center">
                     <h2 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h2>
                     <p className="text-gray-400">
                         You need to be Admin or Manager to access this page.
                     </p>
                 </div>
-            </div>
-        );
+            </div>);
     }
 
-    return (
-        <div className="min-h-screen bg-[#212121] space-y-8 p-6">
+    return (<div className="min-h-screen bg-[#212121] space-y-8 p-6">
             {/* Header */}
             <Container>
                 <h1 className="text-3xl font-bold text-white">Dashboard</h1>
@@ -117,7 +114,7 @@ export default function Home() {
                 </p>
             </Container>
 
-            {error && <ErrorMessage message={error} />}
+            {error && <ErrorMessage message={error}/>}
 
             {/* Products Section */}
             <Container>
@@ -136,14 +133,9 @@ export default function Home() {
                     </button>
                 </div>
 
-                {loadingProducts ? (
-                    <div className="text-center py-8 text-gray-400">
+                {loadingProducts ? (<div className="text-center py-8 text-gray-400">
                         Loading products...
-                    </div>
-                ) : products.length === 0 ? (
-                    <EmptyState message="No products found" />
-                ) : (
-                    <>
+                    </div>) : products.length === 0 ? (<EmptyState message="No products found"/>) : (<>
                         <Table>
                             <TableHeader>
                                 <TableHead>SKU</TableHead>
@@ -153,8 +145,7 @@ export default function Home() {
                                 <TableHead>Status</TableHead>
                             </TableHeader>
                             <TableBody>
-                                {products.map((product) => (
-                                    <TableRow key={product.id}>
+                                {products.map((product) => (<TableRow key={product.id}>
                                         <TableCell className="font-medium text-gray-200">
                                             {product.sku}
                                         </TableCell>
@@ -169,17 +160,12 @@ export default function Home() {
                                         </TableCell>
                                         <TableCell>
                                             <Badge
-                                                variant={
-                                                    product.status === "active"
-                                                        ? "success"
-                                                        : "default"
-                                                }
+                                                variant={product.status === "active" ? "success" : "default"}
                                             >
                                                 {product.status}
                                             </Badge>
                                         </TableCell>
-                                    </TableRow>
-                                ))}
+                                    </TableRow>))}
                             </TableBody>
                         </Table>
                         <Pagination
@@ -187,8 +173,7 @@ export default function Home() {
                             lastPage={productsLastPage}
                             onPageChange={handleProductPageChange}
                         />
-                    </>
-                )}
+                    </>)}
             </Container>
 
             {/* Orders Section */}
@@ -197,19 +182,20 @@ export default function Home() {
                     <div>
                         <h2 className="text-2xl font-bold text-white">Orders</h2>
                         <span className="text-sm text-gray-400">
-                            {ordersTotal} orders found
-                        </span>
+                {ordersTotal} orders found
+            </span>
                     </div>
+                    <button
+                        onClick={() => navigate('/orders/create')}
+                        className="bg-blue-600 hover:bg-blue-700 transition rounded-lg px-4 py-2 font-medium text-white text-sm"
+                    >
+                        + New Order
+                    </button>
                 </div>
 
-                {loadingOrders ? (
-                    <div className="text-center py-8 text-gray-400">
+                {loadingOrders ? (<div className="text-center py-8 text-gray-400">
                         Loading orders...
-                    </div>
-                ) : orders.length === 0 ? (
-                    <EmptyState message="No orders found" />
-                ) : (
-                    <>
+                    </div>) : orders.length === 0 ? (<EmptyState message="No orders found"/>) : (<>
                         <Table>
                             <TableHeader>
                                 <TableHead>Number</TableHead>
@@ -219,8 +205,7 @@ export default function Home() {
                                 <TableHead>Date</TableHead>
                             </TableHeader>
                             <TableBody>
-                                {orders.map((order) => (
-                                    <TableRow key={order.id}>
+                                {orders.map((order) => (<TableRow key={order.id}>
                                         <TableCell className="font-medium text-gray-200">
                                             {order.order_number}
                                         </TableCell>
@@ -245,8 +230,7 @@ export default function Home() {
                                         <TableCell className="text-gray-400">
                                             {new Date(order.created_at).toLocaleDateString("en-US")}
                                         </TableCell>
-                                    </TableRow>
-                                ))}
+                                    </TableRow>))}
                             </TableBody>
                         </Table>
                         <Pagination
@@ -254,9 +238,7 @@ export default function Home() {
                             lastPage={ordersLastPage}
                             onPageChange={handleOrderPageChange}
                         />
-                    </>
-                )}
+                    </>)}
             </Container>
-        </div>
-    );
+        </div>);
 }
