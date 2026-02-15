@@ -11,14 +11,14 @@ import ErrorMessage from "../shared/components/ErrorMessage";
 export default function ViewProduct() {
     const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const {user, loading: authLoading, isAdminOrManager} = useAuth();
+    const {user, loading: authLoading} = useAuth();
 
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!authLoading && isAdminOrManager() && id) {
+        if (!authLoading && user && id) {
             fetchProduct();
         }
     }, [authLoading, id, user]);
@@ -50,12 +50,12 @@ export default function ViewProduct() {
         return <Loading message="Loading product..."/>;
     }
 
-    if (!user || !isAdminOrManager()) {
+    if (!user) {
         return (<div className="flex items-center justify-center min-h-screen bg-[#212121]">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h2>
+                    <h2 className="text-2xl font-bold text-red-400 mb-2">Authentication Required</h2>
                     <p className="text-gray-400">
-                        You need to be Admin or Manager to access this page.
+                        Please log in to view products.
                     </p>
                 </div>
             </div>);
