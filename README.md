@@ -184,30 +184,30 @@ Cliente cria pedido
 
 #### Gestão de Produtos
 - [x] Listagem de produtos
-- [ ] Formulário de cadastro
-- [ ] Formulário de edição
+- [x] Formulário de cadastro
+- [x] Formulário de edição
 - [ ] Controle de estoque
 - [ ] Upload de imagens
-- [ ] Soft delete e restauração
+- [x] Soft delete e restauração
 - [ ] Filtros e busca
 
 #### Gestão de Pedidos
 - [x] Listagem de pedidos
-- [ ] Formulário de criação de pedido
-- [ ] Seleção de produtos com validação de estoque
-- [ ] Cálculo automático de totais
-- [ ] Visualização de detalhes do pedido
-- [ ] Cancelamento de pedidos
+- [x] Formulário de criação de pedido
+- [x] Seleção de produtos com validação de estoque
+- [x] Cálculo automático de totais
+- [x] Visualização de detalhes do pedido
+- [x] Cancelamento de pedidos
 - [ ] Filtros por status e data
-- [ ] Área "Meus Pedidos" para clientes
+- [x] Área "Meus Pedidos" para clientes
 
 #### Interface e Experiência
 - [x] Design responsivo
 - [ ] Tema claro/escuro
-- [ ] Notificações toast
-- [ ] Tratamento de erros
-- [ ] Validação de formulários
-- [ ] Paginação
+- [x] Notificações toast
+- [x] Tratamento de erros
+- [x] Validação de formulários
+- [x] Paginação
 
 ## Instalação e Execução
 
