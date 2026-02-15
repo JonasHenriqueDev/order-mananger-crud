@@ -1,5 +1,5 @@
-import { api } from "./api";
-import type { LoginResponse } from "./types";
+import { api } from "./api.ts";
+import type {LoginResponse, User} from "./types.ts";
 
 export interface RegisterPayload {
     first_name: string;
@@ -24,4 +24,9 @@ export const authService = {
         const response = await api.post<LoginResponse>("/register", data);
         return response.data;
     },
+
+    async me(): Promise<User> {
+        const response = await api.get<User>("/me");
+        return response.data;
+    }
 };

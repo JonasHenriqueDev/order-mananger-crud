@@ -1,6 +1,6 @@
-import type {User} from "../../services/types.ts";
+import type {User} from "../services/types.ts";
 import {createContext, useCallback, useContext, useEffect, useState} from "react";
-import {authService, type RegisterPayload} from "../../services/authService.ts";
+import {authService, type RegisterPayload} from "../services/authService.ts";
 
 
 interface IAuthContextProps {
