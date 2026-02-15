@@ -8,6 +8,7 @@ import CreateProduct from "./pages/CreateProduct.tsx";
 import CreateOrder from "./shared/components/CreateOrder.tsx";
 import ViewProduct from "./pages/ViewProduct.tsx";
 import ViewOrder from "./pages/ViewOrder.tsx";
+import MyOrders from "./pages/MyOrders.tsx";
 
 export const AppRoutes = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -38,6 +39,7 @@ export const AppRoutes = () => {
                     }
                 >
                     <Route path="/" element={<Home />} />
+                    <Route path="/my-orders" element={<MyOrders />} />
                     <Route path="/products/create" element={<CreateProduct />} />
                     <Route path="/products/:id" element={<ViewProduct />} />
                     <Route path="/orders/create" element={<CreateOrder />} />
