@@ -98,7 +98,7 @@ class OrderController extends Controller
 
         if ($order->user_id !== $user->id && !$user->hasAnyRole(['admin', 'manager'])) {
             return response()->json([
-                'message' => 'Você não tem permissão para visualizar este pedido.'
+                'message' => 'You do not have permission to view this order.'
             ], 403);
         }
 
@@ -125,7 +125,7 @@ class OrderController extends Controller
                 case OrderStatus::CANCELLED:
                     if (!$order->canBeCancelled()) {
                         return response()->json([
-                            'message' => 'Este pedido não pode ser cancelado.'
+                            'message' => 'This order cannot be cancelled.'
                         ], 422);
                     }
                     $order->markAsCancelled();
@@ -156,7 +156,7 @@ class OrderController extends Controller
     {
         if ($order->status !== OrderStatus::PENDING) {
             return response()->json([
-                'message' => 'Apenas pedidos pendentes podem ser excluídos.'
+                'message' => 'Only pending orders can be deleted.'
             ], 422);
         }
 

@@ -56,7 +56,7 @@ export default function MyOrders() {
     };
 
     const formatDate = (dateString: string): string => {
-        return new Date(dateString).toLocaleDateString("pt-BR", {
+        return new Date(dateString).toLocaleDateString("en-US", {
             year: "numeric",
             month: "2-digit",
             day: "2-digit",
@@ -64,9 +64,9 @@ export default function MyOrders() {
     };
 
     const formatCurrency = (value: string): string => {
-        return new Intl.NumberFormat("pt-BR", {
+        return new Intl.NumberFormat("en-US", {
             style: "currency",
-            currency: "BRL",
+            currency: "USD",
         }).format(parseFloat(value));
     };
 

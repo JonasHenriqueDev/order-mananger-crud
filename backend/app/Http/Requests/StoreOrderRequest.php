@@ -48,7 +48,7 @@ class StoreOrderRequest extends FormRequest
                     if ($requestedUserId != $user->id) {
                         $validator->errors()->add(
                             'user_id',
-                            'Você só pode criar pedidos em seu próprio nome.'
+                            'You can only create orders in your own name.'
                         );
                     }
                 }
@@ -65,14 +65,14 @@ class StoreOrderRequest extends FormRequest
                     if ($product->stock < ($item['quantity'] ?? 0)) {
                         $validator->errors()->add(
                             "items.{$index}.quantity",
-                            "Estoque insuficiente para o produto '{$product->name}'. Disponível: {$product->stock}"
+                            "Insufficient stock for product '{$product->name}'. Available: {$product->stock}"
                         );
                     }
 
                     if ($product->status !== 'active') {
                         $validator->errors()->add(
                             "items.{$index}.product_id",
-                            "O produto '{$product->name}' não está ativo."
+                            "Product '{$product->name}' is not active."
                         );
                     }
                 }
@@ -83,11 +83,11 @@ class StoreOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'items.required' => 'O pedido deve conter pelo menos um item.',
-            'items.*.product_id.required' => 'O ID do produto é obrigatório.',
-            'items.*.product_id.exists' => 'Produto não encontrado.',
-            'items.*.quantity.required' => 'A quantidade é obrigatória.',
-            'items.*.quantity.min' => 'A quantidade deve ser no mínimo 1.',
+            'items.required' => 'The order must contain at least one item.',
+            'items.*.product_id.required' => 'Product ID is required.',
+            'items.*.product_id.exists' => 'Product not found.',
+            'items.*.quantity.required' => 'Quantity is required.',
+            'items.*.quantity.min' => 'Quantity must be at least 1.',
         ];
     }
 }

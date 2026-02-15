@@ -28,13 +28,13 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin/dashboard', fn () => [
-            'message' => 'Área do Admin'
+            'message' => 'Admin Area'
         ]);
     });
 
     Route::middleware('role:admin,manager')->group(function () {
         Route::get('/manager/reports', fn () => [
-            'message' => 'Área do Manager'
+            'message' => 'Manager Area'
         ]);
 
         // User routes

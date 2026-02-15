@@ -21,29 +21,29 @@ class CompleteOrderJob implements ShouldQueue
 
     public function handle(): void
     {
-        \Log::info("Completando pedido {$this->order->id}");
+        \Log::info("Completing order {$this->order->id}");
 
         try {
             if ($this->order->status->value !== 'processing') {
-                \Log::warning("Pedido {$this->order->id} não está em processamento");
+                \Log::warning("Order {$this->order->id} is not in processing state");
                 return;
             }
 
             $this->order->markAsCompleted();
 
-            \Log::info("Pedido {$this->order->id} completado com sucesso");
+            \Log::info("Order {$this->order->id} completed successfully");
         } catch (\Exception $e) {
-            \Log::error("Erro ao completar pedido {$this->order->id}: {$e->getMessage()}");
+            \Log::error("Error completing order {$this->order->id}: {$e->getMessage()}");
             throw $e;
         }
     }
 
     public function failed(\Throwable $exception): void
     {
-        \Log::error("Falha ao completar pedido {$this->order->id}: {$exception->getMessage()}");
+        \Log::error("Failed to complete order {$this->order->id}: {$exception->getMessage()}");
 
         $this->order->update([
-            'notes' => ($this->order->notes ?? '') . "\n[ERRO] Falha ao completar: {$exception->getMessage()}",
+            'notes' => ($this->order->notes ?? '') . "\n[ERROR] Failed to complete: {$exception->getMessage()}",
         ]);
     }
 }

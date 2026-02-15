@@ -19,7 +19,7 @@ class RoleMiddleware
 
         if (! $user || ! $user->hasAnyRole($roles)) {
             return response()->json([
-                'message' => 'Acesso não autorizado',
+                'message' => 'Unauthorized access',
             ], 403);
         }
 

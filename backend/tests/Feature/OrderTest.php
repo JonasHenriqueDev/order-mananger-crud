@@ -237,7 +237,7 @@ describe('Update', function () {
 
         $response->assertStatus(422)
             ->assertJsonFragment([
-                'message' => 'Este pedido não pode ser cancelado.',
+                'message' => 'This order cannot be cancelled.',
             ]);
     });
 
@@ -302,7 +302,7 @@ describe('Delete', function () {
 
         $response->assertStatus(422)
             ->assertJsonFragment([
-                'message' => 'Apenas pedidos pendentes podem ser excluídos.',
+                'message' => 'Only pending orders can be deleted.',
             ]);
     });
 

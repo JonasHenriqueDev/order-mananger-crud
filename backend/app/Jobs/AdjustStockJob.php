@@ -23,21 +23,21 @@ class AdjustStockJob implements ShouldQueue
 
     public function handle(): void
     {
-        \Log::info("Ajustando estoque para produto {$this->orderItem->product_id}");
+        \Log::info("Adjusting stock for product {$this->orderItem->product_id}");
 
         try {
             $this->orderItem->product->adjustStock($this->quantity);
 
-            \Log::info("Estoque ajustado com sucesso. Produto: {$this->orderItem->product_id}, Quantidade: {$this->quantity}");
+            \Log::info("Stock adjusted successfully. Product: {$this->orderItem->product_id}, Quantity: {$this->quantity}");
         } catch (\Exception $e) {
-            \Log::error("Erro ao ajustar estoque: {$e->getMessage()}");
+            \Log::error("Error adjusting stock: {$e->getMessage()}");
             throw $e;
         }
     }
 
     public function failed(\Throwable $exception): void
     {
-        \Log::error("Falha ao ajustar estoque após 3 tentativas: {$exception->getMessage()}");
+        \Log::error("Failed to adjust stock after 3 attempts: {$exception->getMessage()}");
     }
 }
 
