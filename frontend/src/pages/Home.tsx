@@ -31,9 +31,13 @@ export default function Home() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!authLoading && isAdminOrManager()) {
+        if (!authLoading && user) {
             void fetchProducts(1);
-            void fetchOrders(1);
+            if (isAdminOrManager()) {
+                void fetchOrders(1);
+            } else {
+                void fetchMyOrders(1);
+            }
         }
     }, [authLoading, user]);
 
@@ -75,6 +79,25 @@ export default function Home() {
         }
     };
 
+    const fetchMyOrders = async (page: number) => {
+        setLoadingOrders(true);
+        setError(null);
+
+        try {
+            const ordersData = await orderService.getMyOrders(page);
+
+            setOrders(ordersData.data);
+            setOrdersCurrentPage(ordersData.meta.current_page);
+            setOrdersLastPage(ordersData.meta.last_page);
+            setOrdersTotal(ordersData.meta.total);
+        } catch (err) {
+            setError('Error loading orders. Check your authentication.');
+            console.error(err);
+        } finally {
+            setLoadingOrders(false);
+        }
+    };
+
     const handleProductPageChange = (page: number) => {
         void fetchProducts(page);
     };
@@ -93,16 +116,18 @@ export default function Home() {
         return <Loading message="Loading..."/>;
     }
 
-    if (!user || !isAdminOrManager()) {
+    if (!user) {
         return (<div className="flex items-center justify-center min-h-screen bg-[#212121]">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h2>
+                    <h2 className="text-2xl font-bold text-red-400 mb-2">Authentication Required</h2>
                     <p className="text-gray-400">
-                        You need to be Admin or Manager to access this page.
+                        Please log in to continue.
                     </p>
                 </div>
             </div>);
     }
+
+    const isAdmin = isAdminOrManager();
 
     return (<div className="min-h-screen bg-[#212121] space-y-8 p-6">
             {/* Header */}
@@ -125,12 +150,14 @@ export default function Home() {
                             {productsTotal} products found
                         </span>
                     </div>
-                    <button
-                        onClick={() => navigate('/products/create')}
-                        className="bg-blue-600 hover:bg-blue-700 transition rounded-lg px-4 py-2 font-medium text-white text-sm"
-                    >
-                        + New Product
-                    </button>
+                    {isAdmin && (
+                        <button
+                            onClick={() => navigate('/products/create')}
+                            className="bg-blue-600 hover:bg-blue-700 transition rounded-lg px-4 py-2 font-medium text-white text-sm"
+                        >
+                            + New Product
+                        </button>
+                    )}
                 </div>
 
                 {loadingProducts ? (<div className="text-center py-8 text-gray-400">
@@ -190,10 +217,12 @@ export default function Home() {
             <Container>
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <h2 className="text-2xl font-bold text-white">Orders</h2>
+                        <h2 className="text-2xl font-bold text-white">
+                            {isAdmin ? "Orders" : "My Orders"}
+                        </h2>
                         <span className="text-sm text-gray-400">
-                {ordersTotal} orders found
-            </span>
+                            {ordersTotal} {isAdmin ? "orders" : "orders"} found
+                        </span>
                     </div>
                     <button
                         onClick={() => navigate('/orders/create')}
@@ -205,11 +234,11 @@ export default function Home() {
 
                 {loadingOrders ? (<div className="text-center py-8 text-gray-400">
                         Loading orders...
-                    </div>) : orders.length === 0 ? (<EmptyState message="No orders found"/>) : (<>
+                    </div>) : orders.length === 0 ? (<EmptyState message={isAdmin ? "No orders found" : "You haven't placed any orders yet"}/>) : (<>
                         <Table>
                             <TableHeader>
                                 <TableHead>Number</TableHead>
-                                <TableHead>Customer</TableHead>
+                                {isAdmin && <TableHead>Customer</TableHead>}
                                 <TableHead>Status</TableHead>
                                 <TableHead>Total</TableHead>
                                 <TableHead>Date</TableHead>
@@ -224,9 +253,11 @@ export default function Home() {
                                         <TableCell className="font-medium text-gray-200">
                                             {order.order_number}
                                         </TableCell>
-                                        <TableCell>
-                                            {order.user.first_name} {order.user.last_name}
-                                        </TableCell>
+                                        {isAdmin && (
+                                            <TableCell>
+                                                {order.user.first_name} {order.user.last_name}
+                                            </TableCell>
+                                        )}
                                         <TableCell>
                 <span
                     className="px-2 py-1 rounded border"

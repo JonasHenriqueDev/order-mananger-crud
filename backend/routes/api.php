@@ -18,6 +18,14 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     // My Orders (accessible to all authenticated users)
     Route::get('/my-orders', [OrderController::class, 'myOrders']);
 
+    // Products (viewable by all authenticated users)
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products/{product}', [ProductController::class, 'show']);
+
+    // Orders (creation and viewing accessible to all authenticated users)
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
+
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin/dashboard', fn () => [
             'message' => 'Área do Admin'
@@ -52,19 +60,15 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
         Route::delete('/addresses/{address}', [AddressController::class, 'destroy']);
         Route::get('/users/{user}/addresses', [AddressController::class, 'userAddresses']);
 
-        // Product routes
-        Route::get('/products', [ProductController::class, 'index']);
+        // Product routes (create, update, delete)
         Route::post('/products', [ProductController::class, 'store']);
-        Route::get('/products/{product}', [ProductController::class, 'show']);
         Route::put('/products/{product}', [ProductController::class, 'update']);
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
         Route::post('/products/{id}/restore', [ProductController::class, 'restore']);
         Route::delete('/products/{id}/force', [ProductController::class, 'forceDelete']);
 
-        // Order routes
+        // Order routes (update, delete)
         Route::get('/orders', [OrderController::class, 'index']);
-        Route::post('/orders', [OrderController::class, 'store']);
-        Route::get('/orders/{order}', [OrderController::class, 'show']);
         Route::put('/orders/{order}', [OrderController::class, 'update']);
         Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
         Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);

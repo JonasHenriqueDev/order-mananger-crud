@@ -41,6 +41,18 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
+                $user = auth()->user();
+                $requestedUserId = $this->input('user_id');
+
+                if ($requestedUserId && !$user->hasAnyRole(['admin', 'manager'])) {
+                    if ($requestedUserId != $user->id) {
+                        $validator->errors()->add(
+                            'user_id',
+                            'Você só pode criar pedidos em seu próprio nome.'
+                        );
+                    }
+                }
+
                 $items = $this->input('items', []);
 
                 foreach ($items as $index => $item) {
@@ -50,7 +62,6 @@ class StoreOrderRequest extends FormRequest
                         continue;
                     }
 
-                    // Validate stock availability
                     if ($product->stock < ($item['quantity'] ?? 0)) {
                         $validator->errors()->add(
                             "items.{$index}.quantity",
@@ -58,7 +69,6 @@ class StoreOrderRequest extends FormRequest
                         );
                     }
 
-                    // Validate product is active
                     if ($product->status !== 'active') {
                         $validator->errors()->add(
                             "items.{$index}.product_id",

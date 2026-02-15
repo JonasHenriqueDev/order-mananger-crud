@@ -37,8 +37,13 @@ export default function CreateOrder() {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        if (!authLoading && isAdminOrManager()) {
-            fetchUsers();
+        if (!authLoading && user) {
+            if (isAdminOrManager()) {
+                fetchUsers();
+            } else {
+                // Para usuários comuns, definir como seu próprio ID
+                setSelectedUserId(user.id.toString());
+            }
         }
     }, [authLoading, user]);
 
@@ -143,18 +148,20 @@ export default function CreateOrder() {
         return <Loading />;
     }
 
-    if (!user || !isAdminOrManager()) {
+    if (!user) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-[#212121]">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h2>
+                    <h2 className="text-2xl font-bold text-red-400 mb-2">Authentication Required</h2>
                     <p className="text-gray-400">
-                        You need to be Admin or Manager to access this page.
+                        Please log in to create an order.
                     </p>
                 </div>
             </div>
         );
     }
+
+    const isAdmin = isAdminOrManager();
 
     const selectedProductIds = orderItems.map((item) => item.product.id);
 
@@ -178,22 +185,30 @@ export default function CreateOrder() {
                     )}
 
                     <form onSubmit={handleSubmit}>
-                        {/* Customer Selection */}
-                        {loadingUsers ? (
-                            <div className="text-gray-400 mb-4">Loading users...</div>
+                        {/* Customer Selection - Only for Admin/Manager */}
+                        {isAdmin ? (
+                            loadingUsers ? (
+                                <div className="text-gray-400 mb-4">Loading users...</div>
+                            ) : (
+                                <Select
+                                    label="Customer"
+                                    value={selectedUserId}
+                                    onChange={(e) => setSelectedUserId(e.target.value)}
+                                    options={[
+                                        { value: "", label: "Current User (Me)" },
+                                        ...users.map((u) => ({
+                                            value: u.id.toString(),
+                                            label: `${u.first_name} ${u.last_name} (${u.email})`,
+                                        })),
+                                    ]}
+                                />
+                            )
                         ) : (
-                            <Select
-                                label="Customer"
-                                value={selectedUserId}
-                                onChange={(e) => setSelectedUserId(e.target.value)}
-                                options={[
-                                    { value: "", label: "Current User (Me)" },
-                                    ...users.map((u) => ({
-                                        value: u.id.toString(),
-                                        label: `${u.first_name} ${u.last_name} (${u.email})`,
-                                    })),
-                                ]}
-                            />
+                            <div className="mb-6 p-4 bg-blue-900/30 border border-blue-700 rounded-lg">
+                                <p className="text-blue-300">
+                                    This order will be created under your name: <span className="font-semibold">{user.first_name} {user.last_name}</span>
+                                </p>
+                            </div>
                         )}
 
                         {/* Products Section */}

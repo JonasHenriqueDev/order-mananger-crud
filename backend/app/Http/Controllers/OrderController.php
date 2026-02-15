@@ -94,6 +94,14 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $user = auth()->user();
+
+        if ($order->user_id !== $user->id && !$user->hasAnyRole(['admin', 'manager'])) {
+            return response()->json([
+                'message' => 'Você não tem permissão para visualizar este pedido.'
+            ], 403);
+        }
+
         return new OrderResource($order->load(['user', 'items.product']));
     }
 
@@ -104,7 +112,6 @@ class OrderController extends Controller
     {
         $data = $request->validated();
 
-        // Update status with timestamp
         if (isset($data['status'])) {
             $status = OrderStatus::from($data['status']);
 
@@ -122,7 +129,6 @@ class OrderController extends Controller
                         ], 422);
                     }
                     $order->markAsCancelled();
-                    // Restore stock
                     foreach ($order->items()->with('product')->get() as $item) {
                         if ($item->product) {
                             $item->product->adjustStock($item->quantity);
@@ -133,7 +139,6 @@ class OrderController extends Controller
             unset($data['status']);
         }
 
-        // Update other fields
         if (!empty($data)) {
             $order->update($data);
             if (isset($data['tax']) || isset($data['discount'])) {
@@ -149,7 +154,6 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        // Only allow deletion if pending
         if ($order->status !== OrderStatus::PENDING) {
             return response()->json([
                 'message' => 'Apenas pedidos pendentes podem ser excluídos.'
@@ -157,7 +161,6 @@ class OrderController extends Controller
         }
 
         DB::transaction(function () use ($order) {
-            // Restore stock
             foreach ($order->items()->with('product')->get() as $item) {
                 if ($item->product) {
                     $item->product->adjustStock($item->quantity);

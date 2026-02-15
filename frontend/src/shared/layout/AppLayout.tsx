@@ -25,9 +25,12 @@ export default function AppLayout() {
         <div className="min-h-screen bg-[#181818] text-white">
 
             <header className="bg-[#212121] p-4 shadow flex justify-between items-center">
-                <h1 className="font-semibold text-lg">
+                <button
+                    onClick={() => navigate("/")}
+                    className="font-semibold text-lg hover:text-blue-400 transition cursor-pointer"
+                >
                     Order Manager
-                </h1>
+                </button>
 
                 <nav className="flex items-center gap-2">
                     <button

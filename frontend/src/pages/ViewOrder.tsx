@@ -11,17 +11,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 export default function ViewOrder() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const { user, loading: authLoading, isAdminOrManager } = useAuth();
+    const { user, loading: authLoading } = useAuth();
 
     const [order, setOrder] = useState<Order | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!authLoading && isAdminOrManager() && id) {
+        if (!authLoading && user && id) {
             fetchOrder();
         }
-    }, [authLoading, id]);
+    }, [authLoading, id, user]);
 
     const fetchOrder = async () => {
         try {
@@ -39,13 +39,13 @@ export default function ViewOrder() {
         return <Loading message="Loading order..." />;
     }
 
-    if (!user || !isAdminOrManager()) {
+    if (!user) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-[#212121]">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h2>
+                    <h2 className="text-2xl font-bold text-red-400 mb-2">Authentication Required</h2>
                     <p className="text-gray-400">
-                        You need to be Admin or Manager to access this page.
+                        Please log in to view this order.
                     </p>
                 </div>
             </div>
