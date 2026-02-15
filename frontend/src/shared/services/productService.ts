@@ -19,18 +19,18 @@ export const productService = {
     },
 
     async getProduct(id: number): Promise<Product> {
-        const response = await api.get<Product>(`/products/${id}`);
-        return response.data;
+        const response = await api.get<{ data: Product }>(`/products/${id}`);
+        return response.data.data;
     },
 
     async createProduct(data: CreateProductPayload): Promise<Product> {
-        const response = await api.post<Product>("/products", data);
-        return response.data;
+        const response = await api.post<{ data: Product }>("/products", data);
+        return response.data.data;
     },
 
     async updateProduct(id: number, data: Partial<CreateProductPayload>): Promise<Product> {
-        const response = await api.put<Product>(`/products/${id}`, data);
-        return response.data;
+        const response = await api.put<{ data: Product }>(`/products/${id}`, data);
+        return response.data.data;
     },
 
     async deleteProduct(id: number): Promise<void> {

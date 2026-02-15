@@ -145,7 +145,12 @@ export default function Home() {
                                 <TableHead>Status</TableHead>
                             </TableHeader>
                             <TableBody>
-                                {products.map((product) => (<TableRow key={product.id}>
+                                {products.map((product) => (
+                                    <TableRow
+                                        key={product.id}
+                                        className="cursor-pointer"
+                                        onClick={() => navigate(`/products/${product.id}`)}
+                                    >
                                         <TableCell className="font-medium text-gray-200">
                                             {product.sku}
                                         </TableCell>
@@ -160,12 +165,17 @@ export default function Home() {
                                         </TableCell>
                                         <TableCell>
                                             <Badge
-                                                variant={product.status === "active" ? "success" : "default"}
+                                                variant={
+                                                    product.status === "active"
+                                                        ? "success"
+                                                        : "default"
+                                                }
                                             >
                                                 {product.status}
                                             </Badge>
                                         </TableCell>
-                                    </TableRow>))}
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                         <Pagination
@@ -205,7 +215,12 @@ export default function Home() {
                                 <TableHead>Date</TableHead>
                             </TableHeader>
                             <TableBody>
-                                {orders.map((order) => (<TableRow key={order.id}>
+                                {orders.map((order) => (
+                                    <TableRow
+                                        key={order.id}
+                                        className="cursor-pointer"
+                                        onClick={() => navigate(`/orders/${order.id}`)}
+                                    >
                                         <TableCell className="font-medium text-gray-200">
                                             {order.order_number}
                                         </TableCell>
@@ -213,16 +228,16 @@ export default function Home() {
                                             {order.user.first_name} {order.user.last_name}
                                         </TableCell>
                                         <TableCell>
-                                            <span
-                                                className="px-2 py-1 rounded border"
-                                                style={{
-                                                    backgroundColor: order.status_color + "20",
-                                                    color: order.status_color,
-                                                    borderColor: order.status_color + "40",
-                                                }}
-                                            >
-                                                {order.status_label}
-                                            </span>
+                <span
+                    className="px-2 py-1 rounded border"
+                    style={{
+                        backgroundColor: order.status_color + "20",
+                        color: order.status_color,
+                        borderColor: order.status_color + "40",
+                    }}
+                >
+                    {order.status_label}
+                </span>
                                         </TableCell>
                                         <TableCell className="font-semibold text-gray-200">
                                             $ {parseFloat(order.total).toFixed(2)}
@@ -230,7 +245,8 @@ export default function Home() {
                                         <TableCell className="text-gray-400">
                                             {new Date(order.created_at).toLocaleDateString("en-US")}
                                         </TableCell>
-                                    </TableRow>))}
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                         <Pagination

@@ -4,6 +4,12 @@ interface TableProps {
     children: ReactNode;
 }
 
+interface TableRowProps {
+    children: ReactNode;
+    className?: string;
+    onClick?: () => void;
+}
+
 export function Table({ children }: TableProps) {
     return (
         <div className="overflow-x-auto rounded-lg">
@@ -54,9 +60,12 @@ interface TableRowProps {
     children: ReactNode;
 }
 
-export function TableRow({ children }: TableRowProps) {
+export function TableRow({ children, className = "", onClick }: TableRowProps) {
     return (
-        <tr className="hover:bg-[#383838] transition-colors">
+        <tr
+            className={`hover:bg-[#383838] transition-colors ${className}`}
+            onClick={onClick}
+        >
             {children}
         </tr>
     );
