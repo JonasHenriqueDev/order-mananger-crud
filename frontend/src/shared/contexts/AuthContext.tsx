@@ -1,6 +1,6 @@
 import type {User} from "../../services/types.ts";
 import {createContext, useCallback, useContext, useEffect, useState} from "react";
-import {authService} from "../../services/authService.ts";
+import {authService, type RegisterPayload} from "../../services/authService.ts";
 
 
 interface IAuthContextProps {
@@ -8,8 +8,10 @@ interface IAuthContextProps {
     token?: string;
 
     login(email: string, password: string): Promise<void>;
+    register(data: RegisterPayload): Promise<void>;
     logout(): void;
 }
+
 
 const AuthContext = createContext({} as IAuthContextProps);
 
@@ -37,6 +39,13 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         localStorage.setItem("user", JSON.stringify(data.user));
     }, []);
 
+    const register = async (data: RegisterPayload) => {
+        const response = await authService.register(data);
+
+        localStorage.setItem("token", response.token);
+        setUser(response.user);
+    };
+
     const logout = useCallback(() => {
         setToken(undefined);
         setUser(undefined);
@@ -46,7 +55,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ login, logout, token, user }}>
+        <AuthContext.Provider value={{ login, register, logout, token, user }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,7 +1,8 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login";
-import Home from "./pages/Home.tsx";
-import { useIsAuthenticated } from "./shared/contexts/AuthContext";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import {useIsAuthenticated} from "./shared/contexts/AuthContext";
 import AppLayout from "./shared/layout/AppLayout";
 
 export const AppRoutes = () => {
@@ -11,22 +12,36 @@ export const AppRoutes = () => {
         <BrowserRouter>
             <Routes>
 
-                {/* Public Route */}
-                {!isAuthenticated && (
-                    <Route path="*" element={<Login />} />
-                )}
+                {/* Public Routes */}
+                <Route
+                    path="/login"
+                    element={
+                        isAuthenticated ? <Navigate to="/"/> : <Login/>
+                    }
+                />
+
+                <Route
+                    path="/register"
+                    element={
+                        isAuthenticated ? <Navigate to="/"/> : <Register/>
+                    }
+                />
 
                 {/* Protected Routes */}
-                {isAuthenticated && (
-                    <Route element={<AppLayout />}>
-                        <Route path="/" element={<Home />} />
-                    </Route>
-                )}
+                <Route
+                    element={
+                        isAuthenticated ? <AppLayout/> : <Navigate to="/login"/>
+                    }
+                >
+                    <Route path="/" element={<Home/>}/>
+                </Route>
 
-                {/* Optional redirect fallback */}
+                {/* Fallback */}
                 <Route
                     path="*"
-                    element={<Navigate to={isAuthenticated ? "/" : "/login"} />}
+                    element={
+                        <Navigate to={isAuthenticated ? "/" : "/login"}/>
+                    }
                 />
 
             </Routes>

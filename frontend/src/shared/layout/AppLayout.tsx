@@ -1,13 +1,11 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import {useAuthContext} from "../contexts/AuthContext.tsx";
 
 export default function AppLayout() {
-    const navigate = useNavigate();
     const { logout } = useAuthContext();
 
     const handleLogout = () => {
         logout();
-        navigate("/login");
     };
 
     return (

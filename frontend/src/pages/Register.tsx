@@ -1,19 +1,23 @@
 import { useState } from "react";
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../shared/components/Card";
 import Input from "../shared/components/Input";
 import Button from "../shared/components/Button";
-import * as React from "react";
-import {useAuthContext} from "../shared/contexts/AuthContext.tsx";
-import {useNavigate} from "react-router-dom";
+import { useAuthContext } from "../shared/contexts/AuthContext";
 
-export default function Login() {
-    const { login } = useAuthContext();
+export default function Register() {
+    const { register } = useAuthContext();
+    const navigate = useNavigate();
 
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -22,11 +26,17 @@ export default function Login() {
             setLoading(true);
             setError(null);
 
-            await login(email, password);
+            await register({
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                password,
+                password_confirmation: passwordConfirmation,
+            });
 
-            // optional: navigate to dashboard
+            navigate("/dashboard");
         } catch (err) {
-            setError("Invalid credentials");
+            setError("Registration failed");
         } finally {
             setLoading(false);
         }
@@ -37,15 +47,28 @@ export default function Login() {
             <Card>
                 <form onSubmit={handleSubmit}>
                     <h1 className="text-2xl font-semibold text-center mb-6">
-                        Login
+                        Create Account
                     </h1>
+
+                    <Input
+                        label="First Name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                    />
+
+                    <Input
+                        label="Last Name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                    />
 
                     <Input
                         label="E-mail"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
                         required
                     />
 
@@ -54,7 +77,14 @@ export default function Login() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
+                        required
+                    />
+
+                    <Input
+                        label="Confirm Password"
+                        type="password"
+                        value={passwordConfirmation}
+                        onChange={(e) => setPasswordConfirmation(e.target.value)}
                         required
                     />
 
@@ -63,19 +93,8 @@ export default function Login() {
                     )}
 
                     <Button type="submit" disabled={loading}>
-                        {loading ? "Signing in..." : "Sign In"}
+                        {loading ? "Creating..." : "Register"}
                     </Button>
-
-                    <div className="mt-4 text-center">
-                        <button
-                            type="button"
-                            onClick={() => navigate("/register")}
-                            className="text-sm text-blue-500 hover:text-blue-400 transition"
-                        >
-                            Don't have an account? Register
-                        </button>
-                    </div>
-
                 </form>
             </Card>
         </div>
