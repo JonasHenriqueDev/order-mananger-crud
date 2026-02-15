@@ -13,7 +13,7 @@ interface TableRowProps {
 export function Table({ children }: TableProps) {
     return (
         <div className="overflow-x-auto rounded-lg">
-            <table className="min-w-full divide-y divide-[#3d3d3d]">
+            <table className="w-full divide-y divide-[#3d3d3d]" style={{ tableLayout: 'fixed' }}>
                 {children}
             </table>
         </div>
@@ -27,7 +27,7 @@ interface TableHeaderProps {
 export function TableHeader({ children }: TableHeaderProps) {
     return (
         <thead className="bg-[#1a1a1a]">
-        <tr>{children}</tr>
+            <tr>{children}</tr>
         </thead>
     );
 }
@@ -38,7 +38,7 @@ interface TableHeadProps {
 
 export function TableHead({ children }: TableHeadProps) {
     return (
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+        <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap border-b border-[#3d3d3d]">
             {children}
         </th>
     );

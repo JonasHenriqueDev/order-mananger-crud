@@ -9,7 +9,7 @@ import ErrorMessage from "../shared/components/ErrorMessage";
 import Badge from "../shared/components/Badge";
 import Button from "../shared/components/Button";
 import Pagination from "../shared/components/Pagination";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../shared/components/Table";
+import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from "../shared/components/Table";
 
 export default function MyOrders() {
     const navigate = useNavigate();
@@ -122,16 +122,14 @@ export default function MyOrders() {
                     <>
                         <div className="overflow-x-auto">
                             <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableHeader>Order #</TableHeader>
-                                        <TableHeader>Status</TableHeader>
-                                        <TableHeader>Date</TableHeader>
-                                        <TableHeader>Items</TableHeader>
-                                        <TableHeader>Total</TableHeader>
-                                        <TableHeader>Actions</TableHeader>
-                                    </TableRow>
-                                </TableHead>
+                                <TableHeader>
+                                    <TableHead>Order #</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Date</TableHead>
+                                    <TableHead>Items</TableHead>
+                                    <TableHead>Total</TableHead>
+                                    <TableHead>Actions</TableHead>
+                                </TableHeader>
                                 <TableBody>
                                     {orders.map((order) => (
                                         <TableRow key={order.id}>
@@ -199,6 +197,9 @@ function getStatusVariant(
             return "default";
     }
 }
+
+
+
 
 
 
