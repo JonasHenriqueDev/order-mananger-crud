@@ -38,7 +38,7 @@ export default function Home() {
             setProducts(productsData.data);
             setOrders(ordersData.data);
         } catch (err) {
-            setError('Erro ao carregar dados. Verifique sua autenticação.');
+            setError('Error loading data. Check your authentication.');
             console.error(err);
         } finally {
             setLoadingData(false);
@@ -52,16 +52,16 @@ export default function Home() {
     };
 
     if (authLoading) {
-        return <Loading />;
+        return <Loading message="Loading..." />;
     }
 
     if (!user || !isAdminOrManager()) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-[#212121]">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-400 mb-2">Acesso Negado</h2>
+                    <h2 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h2>
                     <p className="text-gray-400">
-                        Você precisa ser Admin ou Manager para acessar esta página.
+                        You need to be Admin or Manager to access this page.
                     </p>
                 </div>
             </div>
@@ -74,7 +74,7 @@ export default function Home() {
             <Container>
                 <h1 className="text-3xl font-bold text-white">Dashboard</h1>
                 <p className="text-gray-400 mt-2">
-                    Bem-vindo, {user.first_name} {user.last_name}{" "}
+                    Welcome, {user.first_name} {user.last_name}{" "}
                     <span className="text-blue-400">({user.role})</span>
                 </p>
             </Container>
@@ -84,25 +84,25 @@ export default function Home() {
             {/* Products Section */}
             <Container>
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold text-white">Produtos</h2>
+                    <h2 className="text-2xl font-bold text-white">Products</h2>
                     <span className="text-sm text-gray-400">
-                        {products.length} produtos encontrados
+                        {products.length} products found
                     </span>
                 </div>
 
                 {loadingData ? (
                     <div className="text-center py-8 text-gray-400">
-                        Carregando produtos...
+                        Loading products...
                     </div>
                 ) : products.length === 0 ? (
-                    <EmptyState message="Nenhum produto encontrado" />
+                    <EmptyState message="No products found" />
                 ) : (
                     <Table>
                         <TableHeader>
                             <TableHead>SKU</TableHead>
-                            <TableHead>Nome</TableHead>
-                            <TableHead>Preço</TableHead>
-                            <TableHead>Estoque</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Stock</TableHead>
                             <TableHead>Status</TableHead>
                         </TableHeader>
                         <TableBody>
@@ -113,7 +113,7 @@ export default function Home() {
                                     </TableCell>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>
-                                        R$ {parseFloat(product.price).toFixed(2)}
+                                        $ {parseFloat(product.price).toFixed(2)}
                                     </TableCell>
                                     <TableCell>
                                         <Badge variant={getStockVariant(product.stock)}>
@@ -141,26 +141,26 @@ export default function Home() {
             {/* Orders Section */}
             <Container>
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold text-white">Pedidos</h2>
+                    <h2 className="text-2xl font-bold text-white">Orders</h2>
                     <span className="text-sm text-gray-400">
-                        {orders.length} pedidos encontrados
+                        {orders.length} orders found
                     </span>
                 </div>
 
                 {loadingData ? (
                     <div className="text-center py-8 text-gray-400">
-                        Carregando pedidos...
+                        Loading orders...
                     </div>
                 ) : orders.length === 0 ? (
-                    <EmptyState message="Nenhum pedido encontrado" />
+                    <EmptyState message="No orders found" />
                 ) : (
                     <Table>
                         <TableHeader>
-                            <TableHead>Número</TableHead>
-                            <TableHead>Cliente</TableHead>
+                            <TableHead>Number</TableHead>
+                            <TableHead>Customer</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Total</TableHead>
-                            <TableHead>Data</TableHead>
+                            <TableHead>Date</TableHead>
                         </TableHeader>
                         <TableBody>
                             {orders.map((order) => (
@@ -184,10 +184,10 @@ export default function Home() {
                                         </span>
                                     </TableCell>
                                     <TableCell className="font-semibold text-gray-200">
-                                        R$ {parseFloat(order.total).toFixed(2)}
+                                        $ {parseFloat(order.total).toFixed(2)}
                                     </TableCell>
                                     <TableCell className="text-gray-400">
-                                        {new Date(order.created_at).toLocaleDateString("pt-BR")}
+                                        {new Date(order.created_at).toLocaleDateString("en-US")}
                                     </TableCell>
                                 </TableRow>
                             ))}
