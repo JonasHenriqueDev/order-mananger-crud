@@ -69,14 +69,25 @@ export interface OrderItem {
 
 export interface PaginatedResponse<T> {
     data: T[];
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-    links?: {
+    links: {
         first: string;
         last: string;
         prev: string | null;
         next: string | null;
+    };
+    meta: {
+        current_page: number;
+        from: number;
+        last_page: number;
+        links: Array<{
+            url: string | null;
+            label: string;
+            page: number | null;
+            active: boolean;
+        }>;
+        path: string;
+        per_page: number;
+        to: number;
+        total: number;
     };
 }
