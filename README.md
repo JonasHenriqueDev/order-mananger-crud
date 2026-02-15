@@ -159,15 +159,15 @@ Cliente cria pedido
 ### Frontend
 
 #### Autenticação
-- [ ] Tela de login
-- [ ] Tela de registro
+- [x] Tela de login
+- [x] Tela de registro
 - [ ] Recuperação de senha
-- [ ] Proteção de rotas privadas
-- [ ] Armazenamento seguro de token
-- [ ] Logout
+- [x] Proteção de rotas privadas
+- [x] Armazenamento seguro de token
+- [x] Logout
 
 #### Dashboard
-- [ ] Visão geral do sistema
+- [x] Visão geral do sistema
 - [ ] Indicadores (total de pedidos, faturamento)
 - [ ] Gráficos de vendas
 - [ ] Produtos com estoque baixo
@@ -183,7 +183,7 @@ Cliente cria pedido
 - [ ] Filtros e busca
 
 #### Gestão de Produtos
-- [ ] Listagem de produtos
+- [x] Listagem de produtos
 - [ ] Formulário de cadastro
 - [ ] Formulário de edição
 - [ ] Controle de estoque
@@ -192,7 +192,7 @@ Cliente cria pedido
 - [ ] Filtros e busca
 
 #### Gestão de Pedidos
-- [ ] Listagem de pedidos
+- [x] Listagem de pedidos
 - [ ] Formulário de criação de pedido
 - [ ] Seleção de produtos com validação de estoque
 - [ ] Cálculo automático de totais
@@ -202,7 +202,7 @@ Cliente cria pedido
 - [ ] Área "Meus Pedidos" para clientes
 
 #### Interface e Experiência
-- [ ] Design responsivo
+- [x] Design responsivo
 - [ ] Tema claro/escuro
 - [ ] Notificações toast
 - [ ] Tratamento de erros
