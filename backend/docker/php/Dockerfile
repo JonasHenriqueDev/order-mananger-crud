@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.3-fpm
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -24,4 +24,8 @@ ARG GID=1000
 RUN groupmod -g ${GID} www-data \
     && usermod -u ${UID} -g ${GID} www-data \
     && mkdir -p storage bootstrap/cache \
-    && chown -R www-data:www-data /v
+    && chown -R www-data:www-data /var/www
+
+USER www-data
+
+CMD ["php-fpm"]
